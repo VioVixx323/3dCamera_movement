@@ -1,0 +1,63 @@
+[gd_scene load_steps=11 format=3 uid="uid://bsl6t0b7kjulo"]
+
+[ext_resource type="Script" uid="uid://bm1fscn2ud6ew" path="res://Player.gd" id="1_noarx"]
+[ext_resource type="Texture2D" uid="uid://d0i0g2c8ta8an" path="res://md_testmd.png" id="2_a0tk4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
+sky_top_color = Color(0.38975, 0.417934, 0.701462, 1)
+sky_horizon_color = Color(0.651891, 0.651187, 0.713069, 1)
+ground_horizon_color = Color(0.651891, 0.651187, 0.713069, 1)
+
+[sub_resource type="Sky" id="Sky_a0tk4"]
+sky_material = SubResource("ProceduralSkyMaterial_noarx")
+
+[sub_resource type="Environment" id="Environment_r3fl7"]
+background_mode = 2
+sky = SubResource("Sky_a0tk4")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r3fl7"]
+size = Vector2(20, 20)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_jka67"]
+points = PackedVector3Array(10.1548, 0.158668, 10.1548, -10.1548, -0.158668, -10.1548, -10.1548, 0.158668, -10.1548, 10.1548, -0.158668, -10.1548, -10.1548, -0.158668, 10.1548, -10.1548, 0.158668, 10.1548, 10.1548, 0.158668, -10.1548, 10.1548, -0.158668, 10.1548)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5arm"]
+albedo_color = Color(0.842834, 0.218707, 0.409344, 1)
+albedo_texture = ExtResource("2_a0tk4")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wc5p8"]
+material = SubResource("StandardMaterial3D_i5arm")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jsk3o"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r3fl7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_r3fl7")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_jka67")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_noarx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00315022, 0.970333, 0.0121527)
+mesh = SubResource("CapsuleMesh_wc5p8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00315022, 0.970333, 0.0121527)
+shape = SubResource("CapsuleShape3D_jsk3o")
+debug_color = Color(0.82159, 0, 0.279768, 0.42)
+
+[node name="neck" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93171, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/neck"]

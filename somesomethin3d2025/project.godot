@@ -1,0 +1,8 @@
+config_version=5
+
+[application]
+
+config/name="3rdPerson2025"
+run/main_scene="uid://bsl6t0b7kjulo"
+config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="res://icon.svg"
